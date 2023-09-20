@@ -7,8 +7,9 @@ function App() {
   const [password, setPassword] = useState("");
 
   // UseRef hook
-  const passwordRef = useRef(null)
+  const passwordRef = useRef(null);
 
+  // useCallback function for optimization
   const passwordGenerator = useCallback(() => {
     let pass = "";
     let str = "ABCDEFGHIJKLMNOPQRSTUVWXYXabcdefghijklmnopqrstuvwxyz";
@@ -23,11 +24,13 @@ function App() {
     setPassword(pass);
   }, [length, numberAllowed, charAllowed, setPassword]);
 
+  // Creating copy effect with help of callback and useRef
   const copyPasswordToClipBoard = useCallback(() => {
-    passwordRef.current?.select()
-    window.navigator.clipboard.writeText(password)
-  }, [password])
+    passwordRef.current?.select();
+    window.navigator.clipboard.writeText(password);
+  }, [password]);
 
+  // useEffect for re-rendering
   useEffect(() => {
     passwordGenerator();
   }, [length, numberAllowed, charAllowed, passwordGenerator]);
@@ -45,7 +48,10 @@ function App() {
             readOnly
             ref={passwordRef}
           />
-          <button  onClick={copyPasswordToClipBoard} className="outline-none bg-blue-700 text-white px-3 py-0.5 shrink-0">
+          <button
+            onClick={copyPasswordToClipBoard}
+            className="outline-none bg-blue-700 text-white px-3 py-0.5 shrink-0"
+          >
             Copy
           </button>
         </div>
